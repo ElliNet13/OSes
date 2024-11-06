@@ -24,10 +24,27 @@ window.onload = function()
         autostart: true,
     });
 }
+    // Set up text mode
+    const screenContainer = document.getElementById("screen_container");
+    const textContainer = screenContainer.querySelector(".text-container");
+    textContainer.style.fontFamily = 'monospace';
+    textContainer.style.whiteSpace = 'pre';
+    textContainer.style.fontSize = '14px';
+    textContainer.style.lineHeight = '14px';
+    screenContainer.style.width = '100vw';
+    screenContainer.style.height = '100vh';
+    screenContainer.style.position = 'absolute';
+    screenContainer.style.top = '0';
+    screenContainer.style.left = '0';
+    screenContainer.style.display = 'flex';
+    screenContainer.style.justifyContent = 'center';
+    screenContainer.style.alignItems = 'center';
+    screenContainer.style.backgroundColor = 'black';
+};
 </script>
 
-<!-- A minimal structure for the ScreenAdapter defined in browser/screen.js -->
+<!-- Full screen structure for the emulator and text container -->
 <div id="screen_container">
-    <div style="white-space: pre; font: 14px monospace; line-height: 14px"></div>
+    <div class="text-container" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; white-space: pre; font: 14px monospace; line-height: 14px;"></div>
     <canvas style="display: none"></canvas>
 </div>
