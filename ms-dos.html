@@ -5,8 +5,8 @@
 <script>
 "use strict";
 
-window.onload = function()
-{
+window.onload = function() {
+    // Initialize the emulator
     var emulator = window.emulator = new V86({
         wasm_path: "v86/v86.wasm",
         memory_size: 32 * 1024 * 1024,
@@ -23,7 +23,7 @@ window.onload = function()
         },
         autostart: true,
     });
-}
+
     // Set up text mode
     const screenContainer = document.getElementById("screen_container");
     const textContainer = screenContainer.querySelector(".text-container");
@@ -45,6 +45,6 @@ window.onload = function()
 
 <!-- Full screen structure for the emulator and text container -->
 <div id="screen_container">
-    <div class="text-container" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; white-space: pre; font: 14px monospace; line-height: 14px;"></div>
+    <div class="text-container" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; white-space: pre; font-family: monospace; font-size: 14px; line-height: 14px;"></div>
     <canvas style="display: none"></canvas>
 </div>
