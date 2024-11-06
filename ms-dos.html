@@ -21,8 +21,41 @@ window.onload = function() {
         hda: {
             url: "images/msdos.img", // Hard disk image file path
         },
+        fdd: {
+            url: "images/floppy.img", // Floppy disk image file path (inserted by default)
+        },
         autostart: true,
     });
+
+    // Add floppy disk
+    function insertFloppy(imagePath) {
+        emulator.set_floppy({ url: imagePath });
+    }
+
+    // Eject floppy disk
+    function ejectFloppy() {
+        emulator.set_floppy(null);
+    }
+
+    // Save emulator state to a file
+    function saveState() {
+        const state = emulator.save_state();
+        const blob = new Blob([state], { type: "application/octet-stream" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "state.v86";
+        link.click();
+    }
+
+    // Load emulator state from a file
+    function loadState(file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const state = event.target.result;
+            emulator.load_state(state);
+        };
+        reader.readAsArrayBuffer(file);
+    }
 
     // Set up text mode
     const screenContainer = document.getElementById("screen_container");
@@ -40,8 +73,42 @@ window.onload = function() {
     screenContainer.style.justifyContent = 'center';
     screenContainer.style.alignItems = 'center';
     screenContainer.style.backgroundColor = 'black';
+
+    // Example buttons to insert/eject floppy and save/load state
+    const insertButton = document.createElement("button");
+    insertButton.innerText = "Insert Floppy";
+    insertButton.onclick = function() {
+        insertFloppy("images/newfloppy.img");
+    };
+    document.body.appendChild(insertButton);
+
+    const ejectButton = document.createElement("button");
+    ejectButton.innerText = "Eject Floppy";
+    ejectButton.onclick = function() {
+        ejectFloppy();
+    };
+    document.body.appendChild(ejectButton);
+
+    const saveButton = document.createElement("button");
+    saveButton.innerText = "Save State";
+    saveButton.onclick = function() {
+        saveState();
+    };
+    document.body.appendChild(saveButton);
+
+    const loadButton = document.createElement("input");
+    loadButton.type = "file";
+    loadButton.accept = ".v86";
+    loadButton.onchange = function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            loadState(file);
+        }
+    };
+    document.body.appendChild(loadButton);
 };
 </script>
+
 <!-- Full screen structure for the emulator and text container -->
 <div id="screen_container">
     <div class="text-container" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; white-space: pre; font-family: monospace; font-size: 14px; line-height: 14px;"></div>
