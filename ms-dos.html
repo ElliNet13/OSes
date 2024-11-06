@@ -1,5 +1,5 @@
 <!doctype html>
-<title>MS-DOS</title>
+<title>MS-DOS console</title>
 
 <script src="v86/libv86.js"></script>
 <script>
@@ -19,12 +19,14 @@ window.onload = function()
             url: "bios/vgabios.bin",
         },
         hda: {
-            url: "https://corsproxy.io/?https%3A%2F%2Fgithub.com%2FElliNet13%2FOSes%2Fraw%2Frefs%2Fheads%2Fmain%2Fimages%2FMS-DOS.img", // Hard disk image file path
+            url: "images/msdos.img", // Hard disk image file path
         },
         autostart: true,
     });
 }
 </script>
+
+<h1>MS-DOS console</h1>
 
 <!-- A minimal structure for the ScreenAdapter defined in browser/screen.js -->
 <div id="screen_container">
