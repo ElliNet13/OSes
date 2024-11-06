@@ -43,7 +43,7 @@ window.onload = function() {
 
     // Show or hide the keyboard button based on screen width (mobile view)
     const keyboardButton = document.getElementById("keyboard_button");
-    if (window.innerWidth <= 768) {
+    if (/Mobi|Android|iPhone|mobile|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         keyboardButton.style.display = "block"; // Show the button on mobile
     } else {
         keyboardButton.style.display = "none"; // Hide the button on larger screens
