@@ -74,27 +74,29 @@ window.onload = function() {
     screenContainer.style.alignItems = 'center';
     screenContainer.style.backgroundColor = 'black';
 
+    const root = screenContainer
+
     // Example buttons to insert/eject floppy and save/load state
     const insertButton = document.createElement("button");
     insertButton.innerText = "Insert Floppy";
     insertButton.onclick = function() {
         insertFloppy("images/newfloppy.img");
     };
-    document.body.appendChild(insertButton);
+    root.appendChild(insertButton);
 
     const ejectButton = document.createElement("button");
     ejectButton.innerText = "Eject Floppy";
     ejectButton.onclick = function() {
         ejectFloppy();
     };
-    document.body.appendChild(ejectButton);
+    root.appendChild(ejectButton);
 
     const saveButton = document.createElement("button");
     saveButton.innerText = "Save State";
     saveButton.onclick = function() {
         saveState();
     };
-    document.body.appendChild(saveButton);
+    root.appendChild(saveButton);
 
     const loadButton = document.createElement("input");
     loadButton.type = "file";
@@ -105,7 +107,7 @@ window.onload = function() {
             loadState(file);
         }
     };
-    document.body.appendChild(loadButton);
+    root.appendChild(loadButton);
 };
 </script>
 
