@@ -5,8 +5,18 @@
 <script>
 "use strict";
 
-window.onload = function()
-{
+window.onload = function() {
+    // Cache clearing logic: clear every week
+    const lastClearTime = localStorage.getItem('lastClear');
+    const currentTime = new Date().getTime();
+    const oneWeek = 7 * 24 * 60 * 60 * 1000; // 1 week in milliseconds
+    
+    if (!lastClearTime || currentTime - lastClearTime > oneWeek) {
+        localStorage.removeItem('v86Cache');
+        localStorage.setItem('lastClear', currentTime);
+    }
+
+    // Create the emulator
     var emulator = window.emulator = new V86({
         wasm_path: "v86/v86.wasm",
         memory_size: 32 * 1024 * 1024,
@@ -22,12 +32,36 @@ window.onload = function()
             url: "https://corsproxy.io/?https%3A%2F%2Fgithub.com%2FElliNet13%2FOSes%2Fraw%2Frefs%2Fheads%2Fmain%2Fimages%2FMS-DOS.img", // Hard disk image file path
         },
         autostart: true,
+        on_progress: function(progress) {
+            // Show the loading message and progress
+            document.getElementById("loading_text").innerText = `Downloading: ${Math.round(progress * 100)}%`;
+        }
     });
-}
+    
+    // Set up initial screen and text mode
+    const screenContainer = document.getElementById("screen_container");
+    const textContainer = screenContainer.querySelector(".text-container");
+    textContainer.style.fontFamily = 'monospace';
+    textContainer.style.whiteSpace = 'pre';
+    textContainer.style.fontSize = '14px';
+    textContainer.style.lineHeight = '14px';
+    screenContainer.style.width = '100vw';
+    screenContainer.style.height = '100vh';
+    screenContainer.style.position = 'absolute';
+    screenContainer.style.top = '0';
+    screenContainer.style.left = '0';
+    screenContainer.style.display = 'flex';
+    screenContainer.style.justifyContent = 'center';
+    screenContainer.style.alignItems = 'center';
+    screenContainer.style.backgroundColor = 'black';
+    
+    // Show "Loading MS-DOS" message
+    textContainer.innerText = "Loading MS-DOS...";
+};
 </script>
 
-<!-- A minimal structure for the ScreenAdapter defined in browser/screen.js -->
+<!-- Full screen structure for the emulator and text container -->
 <div id="screen_container">
-    <div style="white-space: pre; font: 14px monospace; line-height: 14px"></div>
+    <div class="text-container" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; white-space: pre; font: 14px monospace; line-height: 14px"></div>
     <canvas style="display: none"></canvas>
 </div>
