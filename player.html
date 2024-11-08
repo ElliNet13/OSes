@@ -44,10 +44,13 @@ document.addEventListener("keydown", (event) => {
     if (event.ctrlKey && event.key === "p") {
         // CTRL+P: Toggle emulator running state
         emulator.v86.running = !emulator.v86.running;
+        event.preventDefault()
     } else if (event.ctrlKey && event.key === "r") {
         // CTRL+R: Restart emulator
         emulator.v86.restart();
+        event.preventDefault()
     } else if (event.ctrlKey && event.key === "e") {
+        event.preventDefault()
         // CTRL+E: Toggle recording
         if (!mediaRecorder || mediaRecorder.state === "inactive") {
             if (!hasShownRecordingAlert) {
