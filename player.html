@@ -5,6 +5,17 @@
 <script>
 "use strict";
 
+function get_mark(var_name) {
+var objUrlParams = new URLSearchParams(window.location.search);
+try{
+var theVar = objUrlParams.get(var_name)
+} catch(err) {
+    console.error("Mark var " + var_name + " could not be read for the following reason: " + err)
+    return(null)
+}
+return(theVar);
+}
+
 window.onload = function() {
     // Initialize the emulator
     var emulator = window.emulator = new V86({
@@ -19,7 +30,7 @@ window.onload = function() {
             url: "bios/vgabios.bin",
         },
         hda: {
-            url: "images/msdos.img", // Hard disk image file path
+            url: "images/" + get_mark("image"), // Hard disk image file path
         },
         autostart: true,
     });
