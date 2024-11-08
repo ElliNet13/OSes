@@ -1,5 +1,5 @@
 <!doctype html>
-<title>MS-DOS console</title>
+<title id="title">Loading OS</title>
 
 <script src="v86/libv86.js"></script>
 <script>
@@ -34,6 +34,7 @@ window.onload = function() {
         },
         autostart: true,
     });
+    document.getElementById("title").innerText = get_mark("image")
 
     // Set up text mode
     const screenContainer = document.getElementById("screen_container");
