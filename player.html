@@ -49,7 +49,7 @@ document.addEventListener("keydown", (event) => {
         // CTRL+R: Restart emulator
         emulator.v86.restart();
         event.preventDefault()
-    } else if (event.ctrlKey && event.key === "e") {
+    } else if (event.ctrlKey && event.key === "h") {
         event.preventDefault()
         // CTRL+E: Toggle recording
         if (!mediaRecorder || mediaRecorder.state === "inactive") {
