@@ -108,6 +108,51 @@ function showOnScreenKeyboard() {
     const textContainer = document.querySelector(".text-container");
     textContainer.focus();
 }
+
+// Simulate typing in the text container
+function simulateTyping() {
+    const textInput = document.getElementById("textInput");
+    const textContainer = document.body;
+    const text = textInput.value;
+    
+    // Simulate each character as a keypress
+    for (let i = 0; i < text.length; i++) {
+        let keyEvent = new KeyboardEvent('keydown', {
+            key: text[i],
+            code: `Key${text[i].toUpperCase()}`,
+            keyCode: text.charCodeAt(i),
+            bubbles: true,
+            cancelable: true
+        });
+        textContainer.dispatchEvent(keyEvent);
+    }
+}
+
+// Simulate backspace
+function simulateBackspace() {
+    const textContainer = document.body;
+    let keyEvent = new KeyboardEvent('keydown', {
+        key: 'Backspace',
+        code: 'Backspace',
+        keyCode: 8,
+        bubbles: true,
+        cancelable: true
+    });
+    textContainer.dispatchEvent(keyEvent);
+}
+
+// Simulate enter key
+function simulateEnter() {
+    const textContainer = document.querySelector(".text-container");
+    let keyEvent = new KeyboardEvent('keydown', {
+        key: 'Enter',
+        code: 'Enter',
+        keyCode: 13,
+        bubbles: true,
+        cancelable: true
+    });
+    textContainer.dispatchEvent(keyEvent);
+}
 </script>
 
 <style>
@@ -128,7 +173,14 @@ function showOnScreenKeyboard() {
 </style>
 
 <div id="screen_container">
-    <button id="keyboard_button" onclick="showOnScreenKeyboard()">Show Keyboard</button>
     <div class="text-container" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; white-space: pre; font-family: monospace; font-size: 14px; line-height: 14px;"></div>
     <canvas style="display: none" id="v86gui"></canvas>
+
+    <div id="keyboard_button">
+    <!-- Input Box for Text -->
+    <input type="text" id="textInput" placeholder="Type here..." />
+    <button onclick="simulateTyping()">Simulate Typing</button>
+    <button onclick="simulateBackspace()">Simulate Backspace</button>
+    <button onclick="simulateEnter()">Simulate Enter</button>
+    </div>
 </div>
