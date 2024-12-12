@@ -6,14 +6,13 @@
 "use strict";
 
 function get_mark(var_name) {
-var objUrlParams = new URLSearchParams(window.location.search);
-try{
-var theVar = objUrlParams.get(var_name)
-} catch(err) {
-    console.error("Mark var " + var_name + " could not be read for the following reason: " + err)
-    return(null)
-}
-return(theVar);
+    var objUrlParams = new URLSearchParams(window.location.search);
+    try {
+        return objUrlParams.get(var_name);
+    } catch (err) {
+        console.error("Mark var " + var_name + " could not be read for the following reason: " + err);
+        return null;
+    }
 }
 
 window.onload = function() {
@@ -34,29 +33,36 @@ window.onload = function() {
         },
         autostart: true,
     });
-    document.getElementById("title").innerText = get_mark("image")
 
-// Keybinds and function setup for emulator controls and recording
-document.addEventListener("keydown", (event) => {
-    if (event.ctrlKey && event.key === "p") {
-        // CTRL+P: Toggle emulator running state
-        emulator.v86.running = !emulator.v86.running;
-        event.preventDefault()
-    } else if (event.ctrlKey && event.key === "r") {
-        // CTRL+R: Restart emulator
-        emulator.v86.restart();
-        event.preventDefault()
-    } else if (event.ctrlKey && event.key === "h") {
-        event.preventDefault()
-        // CTRL+E: Toggle recording
-        if (!mediaRecorder || mediaRecorder.state === "inactive") {
-            alert("Text mode/normal commands will not be recorded so start a game or GUI");
-            startRecording();
-        } else {
-            stopRecording();
+    document.getElementById("title").innerText = get_mark("image");
+
+    // Keybinds for emulator controls
+    document.addEventListener("keydown", (event) => {
+        if (event.ctrlKey && event.key === "p") {
+            emulator.v86.running = !emulator.v86.running;
+            event.preventDefault();
+        } else if (event.ctrlKey && event.key === "r") {
+            emulator.v86.restart();
+            event.preventDefault();
+        } else if (event.ctrlKey && event.key === "h") {
+            event.preventDefault();
+            if (!mediaRecorder || mediaRecorder.state === "inactive") {
+                alert("Text mode/normal commands will not be recorded, so start a game or GUI.");
+                startRecording();
+            } else {
+                stopRecording();
+            }
         }
+    });
+
+    // Show or hide the keyboard button based on screen width (mobile view)
+    const keyboardButton = document.getElementById("keyboard_button");
+    if (/Mobi|Android|iPhone|mobile|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        keyboardButton.style.display = "block"; // Show the button on mobile
+    } else {
+        keyboardButton.style.display = "none"; // Hide the button on larger screens
     }
-});
+};
 
 // Recording functions
 let mediaRecorder;
@@ -66,7 +72,6 @@ function startRecording() {
     const canvas = document.getElementById("v86gui");
     const stream = canvas.captureStream(30); // Capture at 30 FPS
 
-    // Initialize MediaRecorder with canvas stream
     mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm; codecs=vp9" });
 
     mediaRecorder.ondataavailable = (event) => {
@@ -85,48 +90,20 @@ function stopRecording() {
         const blob = new Blob(recordedChunks, { type: "video/webm" });
         const url = URL.createObjectURL(blob);
 
-        // Create a link to download the recorded video
         const a = document.createElement("a");
         a.style.display = "none";
         a.href = url;
-        a.download = "canvas_recording.webm"; // Save as .webm file
+        a.download = "canvas_recording.webm";
         document.body.appendChild(a);
         a.click();
 
-        // Cleanup
         URL.revokeObjectURL(url);
         recordedChunks = [];
     };
     console.log("Recording stopped");
 }
 
-    // Set up text mode
-    const screenContainer = document.getElementById("screen_container");
-    const textContainer = screenContainer.querySelector(".text-container");
-    textContainer.style.fontFamily = 'monospace';
-    textContainer.style.whiteSpace = 'pre';
-    textContainer.style.fontSize = '14px';
-    textContainer.style.lineHeight = '14px';
-    screenContainer.style.width = '100vw';
-    screenContainer.style.height = '100vh';
-    screenContainer.style.position = 'absolute';
-    screenContainer.style.top = '0';
-    screenContainer.style.left = '0';
-    screenContainer.style.display = 'flex';
-    screenContainer.style.justifyContent = 'center';
-    screenContainer.style.alignItems = 'center';
-    screenContainer.style.backgroundColor = 'black';
-
-    // Show or hide the keyboard button based on screen width (mobile view)
-    const keyboardButton = document.getElementById("keyboard_button");
-    if (/Mobi|Android|iPhone|mobile|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        keyboardButton.style.display = "block"; // Show the button on mobile
-    } else {
-        keyboardButton.style.display = "none"; // Hide the button on larger screens
-    }
-};
-
-// Function to show the on-screen keyboard for MS-DOS
+// Show the on-screen keyboard
 function showOnScreenKeyboard() {
     const textContainer = document.querySelector(".text-container");
     textContainer.focus();
@@ -134,27 +111,24 @@ function showOnScreenKeyboard() {
 </script>
 
 <style>
-    /* Media query to only show the keyboard button on mobile */
-    keyboard_button {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+    /* Button to show the on-screen keyboard */
+    #keyboard_button {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
 </style>
 
-<!-- Full screen structure for the emulator and text container -->
 <div id="screen_container">
     <button id="keyboard_button" onclick="showOnScreenKeyboard()">Show Keyboard</button>
     <div class="text-container" style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; white-space: pre; font-family: monospace; font-size: 14px; line-height: 14px;"></div>
     <canvas style="display: none" id="v86gui"></canvas>
 </div>
-
-<!-- Button to show on-screen keyboard on mobile -->
