@@ -29,12 +29,10 @@ window.onload = function() {
             url: "bios/vgabios.bin",
         },
         hda: {
-            url: "images/" + get_mark("image"), // Hard disk image file path
+            url: get_mark("image"), // Hard disk image file path
         },
         autostart: true,
     });
-
-    document.getElementById("title").innerText = get_mark("image");
 
     // Keybinds for emulator controls
     document.addEventListener("keydown", (event) => {
