@@ -3,11 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OS List</title>
+  <title>List | OSes</title>
   <link rel="stylesheet" href="styles.css">
-
-  <!-- Preload favicon -->
-  <link rel="preload" href="https://github.com/fluidicon.png" as="image">
 
   <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7658573165638101" crossorigin="anonymous"></script>
@@ -33,8 +30,14 @@
       color: #333;
     }
 
-    h1 {
-      font-size: 2rem;
+    h1.title {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #222;
+    }
+
+    .os-link h2 {
+      font-size: 1.75rem;
       margin: 1rem 0;
       color: #007acc;
     }
@@ -44,7 +47,7 @@
       color: inherit;
     }
 
-    a:hover h1 {
+    a:hover h2 {
       color: #005a99;
       text-decoration: underline;
     }
@@ -67,8 +70,10 @@
 </head>
 <body>
 
-  <a href="player?image=images/msdos.img">
-    <h1>MS-DOS Games</h1>
+  <h1 class="title">OSes</h1>
+
+  <a class="os-link" href="player?image=images/msdos.img">
+    <h2>MS-DOS Games</h2>
   </a>
 
   <footer>
