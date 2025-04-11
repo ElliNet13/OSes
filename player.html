@@ -1,5 +1,5 @@
 <!doctype html>
-<title id="title">Loading OS</title>
+<title id="title">Loading | OSes Player</title>
 
 <script src="v86/libv86.js"></script>
 <script>
@@ -15,7 +15,12 @@ function get_mark(var_name) {
     }
 }
 
+    const image = get_mark("image");
+
 window.onload = function() {
+    // Set title
+    document.getElementById("title").innerHTML = (image !== null ? image : "Error! No image.") + " | OSes Player";
+    
     // Initialize the emulator
     var emulator = window.emulator = new V86({
         wasm_path: "v86/v86.wasm",
@@ -29,7 +34,7 @@ window.onload = function() {
             url: "bios/vgabios.bin",
         },
         hda: {
-            url: get_mark("image"), // Hard disk image file path
+            url: image, // Hard disk image file path
         },
         autostart: true,
     });
